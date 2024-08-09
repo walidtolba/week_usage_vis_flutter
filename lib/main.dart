@@ -54,7 +54,7 @@ class _HomePageState extends State<HomePage>
       setState(() {});
     });
     _controller.addStatusListener((status) {
-      if (status == AnimationStatus.completed){
+      if (status == AnimationStatus.completed) {
         week = nextWeek;
         _controller.reset();
       }
@@ -75,45 +75,51 @@ class _HomePageState extends State<HomePage>
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                for (var i = 0; i < 7; i++)
-                  BarWidget(
-                    percentage:
-                        week[i] - (week[i] - nextWeek[i]) * _controller.value,
-                    weekDay: weekDays[i],
-                  )
-              ],
+            Container(
+              height: 240,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  for (var i = 0; i < 7; i++)
+                    BarWidget(
+                      percentage:
+                          week[i] - (week[i] - nextWeek[i]) * _controller.value,
+                      weekDay: weekDays[i],
+                    )
+                ],
+              ),
             ),
             SizedBox(
               height: 40,
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Text(
-                  '< ',
-                  style: TextStyle(color: Color(0xFFD6BD98), fontSize: 16.0),
-                ),
-                GestureDetector(
-                  child: Text(
-                    '2024-01-01 - 2024-01-08',
+            GestureDetector(
+              onHorizontalDragUpdate: (foo) => print(foo) ,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Text(
+                    '< ',
                     style: TextStyle(color: Color(0xFFD6BD98), fontSize: 16.0),
                   ),
-                  onTap: () {
-                    nextWeek =
-                        List.generate(7, (index) => Random().nextDouble());
-                        print(_controller.value);
-                    _controller.forward();
-                  },
-                ),
-                Text(
-                  '>',
-                  style: TextStyle(color: Color(0xFFD6BD98), fontSize: 16.0),
-                ),
-              ],
+                  GestureDetector(
+                    child: Text(
+                      '2024-01-01 - 2024-01-08',
+                      style: TextStyle(color: Color(0xFFD6BD98), fontSize: 16.0),
+                    ),
+                    onTap: () {
+                      nextWeek =
+                          List.generate(7, (index) => Random().nextDouble());
+                      print(_controller.value);
+                      _controller.forward();
+                    },
+                  ),
+                  Text(
+                    '>',
+                    style: TextStyle(color: Color(0xFFD6BD98), fontSize: 16.0),
+                  ),
+                ],
+              ),
             )
           ],
         ),
@@ -132,6 +138,7 @@ class BarWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.end,
       children: [
         Container(
           width: 36,
